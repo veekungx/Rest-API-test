@@ -5,8 +5,9 @@ const server = require('./server');
 describe('server', () => {
   describe('GET /status', () => {
     it('should return OK', async () => {
-      const response = await request(server).get('/status');
-      expect(response.text).to.equal('OK');
+      const { statusCode, text } = await request(server).get('/status');
+      expect(statusCode).to.equal(200);
+      expect(text).to.equal('OK');
     });
   });
 });
