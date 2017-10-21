@@ -1,0 +1,29 @@
+@import "../../stylesheets/_variables.scss";
+@import "../../stylesheets/_responsive.scss";
+.TopBarMenu {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: none;
+  background: none;
+  &__icon {
+    font-size: 18px;
+    color: $darkGray;
+    margin-right: 5px;
+  }
+  &__label {
+    color: $darkGray;
+    font-size: 10px;
+  }
+  &__badge {
+    position: absolute;
+    top: -7px;
+    left: 18px;
+    border: 1px solid white;
+    padding: 1px 2px;
+    background: #07a;
+    border-radius: 2px;
+    color: white;
+    font-size: 8px;
+  }
+}

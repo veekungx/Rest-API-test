@@ -1,9 +1,14 @@
+import React from 'react';
 import { configure, addDecorator } from '@storybook/react';
-import apolloStorybookDecorator from 'apollo-storybook-decorator';
-import typeDefs from './typeDefs';
+import configStore from 'redux-mock-store';
+import { Provider } from 'react-redux';
+const mockStore = configStore();
+const store = mockStore();
 
-addDecorator(
-  apolloStorybookDecorator({ typeDefs, mocks: {} })
+addDecorator(story =>
+  <Provider store={store}>
+    {story()}
+  </Provider>
 );
 
 const req = require.context("../src", true, /\.story\.js$/);

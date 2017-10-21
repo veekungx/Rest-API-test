@@ -15,7 +15,8 @@ mkdirp.sync(`${path}/${component}`);
 
 
 // [Component].js
-fs.writeFile(`${path}/${component}/${component}.js`,
+fs.writeFile(
+  `${path}/${component}/${component}.js`,
   `import React from 'react';
 import {} from 'prop-types';
 
@@ -30,10 +31,12 @@ const ${component} = () => (
 ${component}.propTypes = {};
 ${component}.defaultProps = {};
 export default ${component};
-`, (err) => { console.log(err); });
+`, (err) => { console.log(err); },
+);
 
 // [Component].story.js
-fs.writeFile(`${path}/${component}/${component}.story.js`,
+fs.writeFile(
+  `${path}/${component}/${component}.story.js`,
   `import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
@@ -44,10 +47,12 @@ const events = {};
 
 storiesOf('${component}',module)
   .add('Default',()=> <${component} {...props} {...events}/>);
-`, (err) => { console.log(err); });
+`, (err) => { console.log(err); },
+);
 
 // [Component].test.js
-fs.writeFile(`${path}/${component}/${component}.test.js`,
+fs.writeFile(
+  `${path}/${component}/${component}.test.js`,
   `import React from 'react';
 import { shallow } from 'enzyme';
 import ${component} from './${component}';
@@ -55,8 +60,11 @@ import ${component} from './${component}';
 describe('${component}',()=>{
   it('should render');
 });
-`, (err) => { console.log(err); });
+`, (err) => { console.log(err); },
+);
 
 // [Component].scss
-fs.writeFile(`${path}/${component}/${component}.scss`, `.${component}{}`,
-  (err) => { console.log(err); }
+fs.writeFile(
+  `${path}/${component}/${component}.scss`, `.${component}{}`,
+  (err) => { console.log(err); },
+);

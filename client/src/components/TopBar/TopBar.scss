@@ -1,0 +1,35 @@
+@import "../../stylesheets/_variables.scss";
+@import "../../stylesheets/_responsive.scss";
+.TopBar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  background: white;
+  &:after {
+    content: "";
+    bottom: -5px;
+    height: 5px;
+    opacity: 1;
+    box-shadow: inset 0 4px 8px -3px hsla(0, 0%, 7%, .06);
+  }
+  &__search {
+    background: #ebebeb;
+    border: 1px solid $border;
+    border-radius: 3px;
+    padding: 5px 10px;
+  }
+  &__logo {
+    flex: 1;
+    text-align: center;
+    color: $darkGray;
+    font-size: 20px;
+    letter-spacing: 2px;
+    font-weight: bold;
+  }
+  &__menus {
+    display: flex;
+    align-items: center;
+  }
+}
