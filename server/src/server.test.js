@@ -157,7 +157,6 @@ describe('server', () => {
   })
 
   describe('POST /users/login', () => {
-
     describe('200', () => {
       it('should return user _id and token when success', async () => {
         const newUser = await createNewUser();

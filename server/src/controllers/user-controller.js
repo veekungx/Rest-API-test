@@ -17,6 +17,24 @@ const UserController = {
     } else {
       return res.status(401).send();
     }
+  },
+  createUser: async (req, res) => {
+    const { email, password } = req.body;
+    const user = new UserModel({ email, password });
+    let accessToken;
+
+    try {
+      await user.save();
+      accessToken = generateAccessToken(user._id);
+      user.tokens.push(accessToken);
+      await user.save();
+    } catch (e) {
+      return res.status(400).send(e);
+    }
+
+    return res
+      .set('x-auth', accessToken.token)
+      .send(user);
   }
 };
 

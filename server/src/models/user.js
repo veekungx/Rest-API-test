@@ -77,17 +77,6 @@ UserSchema.statics.findByToken = async function (token) {
   return user;
 }
 
-UserSchema.statics.findByCredentials = async function (email, password) {
-  const UserModel = this;
-  const user = await UserModel.findOne({ email });
-  if (!user) return null;
-
-  const isAuthenticated = await bcrypt.compare(password, user.password);
-  return isAuthenticated
-    ? user
-    : null;
-}
-
 const UserModel = mongoose.model('User', UserSchema);
 
 module.exports = {
