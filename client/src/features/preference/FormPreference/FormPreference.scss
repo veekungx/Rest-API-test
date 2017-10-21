@@ -1,0 +1,30 @@
+@import '../../../stylesheets/_variables.scss';
+@import '../../../stylesheets/_responsive.scss';
+.FormPreference {
+  &__header {
+    font-weight: bold;
+    padding: 15px;
+    border-bottom: 1px solid $border;
+  }
+  &__section {
+    display: flex;
+    border-bottom: 1px solid $border;
+    padding: 15px;
+  }
+  &__formLabel {
+    min-width: 150px;
+    color: lighten($darkGray, 10%)
+  }
+  &__formTitle {
+    font-weight: bold;
+    color: $darkGray;
+  }
+  &__field {
+    margin-bottom: 20px;
+  }
+  &__hint {
+    color: lighten($darkGray, 40%);
+    font-weight: lighter;
+    font-size: 12px;
+  }
+}
