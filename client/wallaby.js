@@ -16,7 +16,10 @@ module.exports = function (wallaby) {
     files: [
       'src/**/*.+(js|jsx|json|snap|css|less|sass|scss|jpg|jpeg|gif|png|svg)',
       '!src/**/*.test.js?(x)',
-      '!src/**/*.story.js'
+      '!src/**/*.story.js',
+      '!src/index.js',
+      '!src/config-store.js',
+      '!src/registerServiceWorker.js',
     ],
 
     tests: ['src/**/*.test.js?(x)'],
@@ -32,7 +35,6 @@ module.exports = function (wallaby) {
         presets: ['react-app']
       }),
     },
-
 
     delays: {
       run: 300
