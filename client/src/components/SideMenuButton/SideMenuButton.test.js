@@ -5,8 +5,6 @@ import SideMenuButton from './SideMenuButton';
 describe('SideMenuButton', () => {
   it('should render');
   describe('Props', () => {
-
-
     it('should render icon when iconClassName is provide', () => {
       const iconClassName = 'fa fa-user';
       const wrapper = shallow(<SideMenuButton iconClassName={iconClassName} />);
