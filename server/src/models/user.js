@@ -51,11 +51,13 @@ UserSchema.pre('save', async function (next) {
 });
 
 UserSchema.methods.toJSON = function () {
-  const { email } = this.toObject();
-  return { email }
+  const user = this;
+  const { _id, email } = user.toObject();
+  return { _id, email }
 }
 
 UserSchema.statics.findByToken = async function (token) {
+  const UserModel = this;
   let decode;
   try {
     decode = jwt.decode(token, secret);
@@ -73,6 +75,17 @@ UserSchema.statics.findByToken = async function (token) {
     // "tokens.access": 'auth'
   });
   return user;
+}
+
+UserSchema.statics.findByCredentials = async function (email, password) {
+  const UserModel = this;
+  const user = await UserModel.findOne({ email });
+  if (!user) return null;
+
+  const isAuthenticated = await bcrypt.compare(password, user.password);
+  return isAuthenticated
+    ? user
+    : null;
 }
 
 const UserModel = mongoose.model('User', UserSchema);

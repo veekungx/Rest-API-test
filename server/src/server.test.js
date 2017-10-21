@@ -5,8 +5,8 @@ const { UserModel } = require('./models/user');
 const generateToken = require('./helpers/generate-token');
 
 
-const createNewUser = async () => {
-  const newUser = new UserModel({ email: 'test@mail.com', password: '123456' });
+const createNewUser = async (email = 'test@email.com', password = '123456') => {
+  const newUser = new UserModel({ email, password });
   const accessToken = generateToken(newUser._id);
   newUser.tokens.push(accessToken);
   await newUser.save();
@@ -14,6 +14,10 @@ const createNewUser = async () => {
 }
 
 describe('server', () => {
+  beforeEach(async () => {
+    await UserModel.remove({});
+  });
+
   describe('GET /status', () => {
     it('should return OK', async () => {
       const { statusCode, text } = await request(server)
@@ -24,10 +28,6 @@ describe('server', () => {
   });
 
   describe('GET /users/me', () => {
-    beforeEach(async () => {
-      await UserModel.remove({});
-    });
-
     describe('200', () => {
       it('should return user if authenticated', async () => {
         const newUser = await createNewUser();
@@ -37,8 +37,8 @@ describe('server', () => {
           .get('/users/me')
           .set('Authorization', `Bearer ${token}`)
         expect(statusCode).to.equal(200);
-        const user = UserModel.findOne();
-        expect(body._id).to.equal(user._id)
+        const user = await UserModel.findOne();
+        expect(body._id).to.equal(user._id.toString());
       });
     });
 
@@ -69,10 +69,6 @@ describe('server', () => {
   });
 
   describe('POST /users', () => {
-    beforeEach(async () => {
-      await UserModel.remove({});
-    });
-
     describe('200', () => {
       it('should create new user', async () => {
         const { statusCode, body } = await request(server)
@@ -134,7 +130,7 @@ describe('server', () => {
         await createNewUser();
         const { statusCode, error } = await request(server)
           .post('/users')
-          .send({ email: 'test@mail.com', password: '123456' });
+          .send({ email: 'test@email.com', password: '123456' });
 
         expect(statusCode).to.equal(400);
         expect(error.text).to.contain('duplicate key');
@@ -153,9 +149,42 @@ describe('server', () => {
         const { statusCode, error } = await request(server)
           .post('/users')
           .send({ email: 'test', password: '123456' });
+
         expect(statusCode).to.equal(400);
         expect(error.text).to.contain('not a valid email');
       });
     });
   })
+
+  describe('POST /users/login', () => {
+
+    describe('200', () => {
+      it('should return user _id and token when success', async () => {
+        const newUser = await createNewUser();
+        const { statusCode, body } = await request(server)
+          .post('/users/login')
+          .send({ email: 'test@email.com', password: '123456' })
+
+        expect(statusCode).to.equal(200);
+        expect(body._id).to.equal(newUser._id.toString());
+      });
+    });
+    describe('401', () => {
+      it('should return 401 when email not found', async () => {
+        const { statusCode, body } = await request(server)
+          .post('/users/login')
+          .send({ email: 'notexist@email.com', password: '123456' })
+
+        expect(statusCode).to.equal(401);
+      });
+
+      it('should return 401 when password incorrect', async () => {
+        const { statusCode, body } = await request(server)
+          .post('/users/login')
+          .send({ email: 'test@email.com', password: '12345678' })
+
+        expect(statusCode).to.equal(401);
+      });
+    })
+  });
 });

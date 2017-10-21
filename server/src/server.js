@@ -35,4 +35,12 @@ app.post('/users', async (req, res) => {
   return res.json(user);
 });
 
+app.post('/users/login', async (req, res) => {
+  const { email, password } = req.body;
+  const user = await UserModel.findByCredentials(email, password);
+  if (!user) return res.status(401).send();
+  
+  res.send(user);
+});
+
 module.exports = app;
