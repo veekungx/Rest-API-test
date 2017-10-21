@@ -15,5 +15,8 @@ module.exports = function () {
     delays: {
       run: 300
     },
+    workers: {
+      recycle: true
+    }
   };
 };
