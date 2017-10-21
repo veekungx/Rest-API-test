@@ -89,15 +89,15 @@ describe('server', () => {
       });
 
       it('should have token when create success', async () => {
-        const { statusCode, body } = await request(server)
+        const { statusCode, body, headers } = await request(server)
           .post('/users')
           .send({ email: 'test@mail.com', password: '123456' })
 
         const user = await UserModel.findOne();
+        const token = user.tokens[0].token;
         expect(statusCode).to.equal(200);
-        expect(user.tokens).to.have.lengthOf(1);
+        expect(headers['x-auth']).to.equal(token);
       });
-
 
       it('should not return password field', async () => {
         const { statusCode, body } = await request(server)
@@ -161,12 +161,14 @@ describe('server', () => {
     describe('200', () => {
       it('should return user _id and token when success', async () => {
         const newUser = await createNewUser();
-        const { statusCode, body } = await request(server)
+        const token = newUser.tokens[0].token;
+        const { statusCode, body, headers } = await request(server)
           .post('/users/login')
           .send({ email: 'test@email.com', password: '123456' })
 
         expect(statusCode).to.equal(200);
         expect(body._id).to.equal(newUser._id.toString());
+        expect(headers['x-auth']).to.equal(token);
       });
     });
     describe('401', () => {
@@ -179,6 +181,7 @@ describe('server', () => {
       });
 
       it('should return 401 when password incorrect', async () => {
+        const newUser = await createNewUser();
         const { statusCode, body } = await request(server)
           .post('/users/login')
           .send({ email: 'test@email.com', password: '12345678' })
