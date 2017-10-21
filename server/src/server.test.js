@@ -2,6 +2,16 @@ const { expect } = require('chai');
 const request = require('supertest');
 const server = require('./server');
 const { UserModel } = require('./models/user');
+const generateToken = require('./helpers/generate-token');
+
+
+const createNewUser = async () => {
+  const newUser = new UserModel({ email: 'test@mail.com', password: '123456' });
+  const accessToken = generateToken(newUser._id);
+  newUser.tokens.push(accessToken);
+  await newUser.save();
+  return newUser;
+}
 
 describe('server', () => {
   describe('GET /status', () => {
@@ -13,11 +23,50 @@ describe('server', () => {
     });
   });
 
-  // describe('GET /users/me', () => {
-  //   const { statusCode, body } = await request(server)
-  //     .post('/users')
-  //     .send({ email: 'test@mail.com', password: '123456' });
-  // });
+  describe('GET /users/me', () => {
+    beforeEach(async () => {
+      await UserModel.remove({});
+    });
+
+    describe('200', () => {
+      it('should return user if authenticated', async () => {
+        const newUser = await createNewUser();
+        const token = newUser.tokens[0].token;
+
+        const { statusCode, body } = await request(server)
+          .get('/users/me')
+          .set('Authorization', `Bearer ${token}`)
+        expect(statusCode).to.equal(200);
+        const user = UserModel.findOne();
+        expect(body._id).to.equal(user._id)
+      });
+    });
+
+    describe('401', () => {
+      it('should return 401 when Authorization header not given', async () => {
+        const { statusCode, body, error } = await request(server)
+          .get('/users/me')
+
+        expect(statusCode).to.equal(401);
+      });
+
+      it('should return error when Authorization header invalid', async () => {
+        const { statusCode, body } = await request(server)
+          .get('/users/me')
+          .set('Authorization', `Bearer`)
+
+        expect(statusCode).to.equal(401);
+      });
+
+      it('should return error when user not found', async () => {
+        const { statusCode, body } = await request(server)
+          .get('/users/me')
+          .set('Authorization', `Bearer 123456`)
+
+        expect(statusCode).to.equal(401);
+      });
+    });
+  });
 
   describe('POST /users', () => {
     beforeEach(async () => {
@@ -82,10 +131,7 @@ describe('server', () => {
 
     describe('400', () => {
       it('should return error when email already exists', async () => {
-        await request(server)
-          .post('/users')
-          .send({ email: 'test@mail.com', password: '123456' });
-
+        await createNewUser();
         const { statusCode, error } = await request(server)
           .post('/users')
           .send({ email: 'test@mail.com', password: '123456' });

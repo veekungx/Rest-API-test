@@ -60,14 +60,19 @@ UserSchema.statics.findByToken = async function (token) {
   try {
     decode = jwt.decode(token, secret);
   } catch (e) {
-
+    throw new Error(e);
   }
+
+  if (!decode) return null;
+
   const { userId } = decode;
-  return UserModel.findOne({
+
+  const user = await UserModel.findOne({
     _id: userId,
-    "tokens.token": token,
-    "tokens.access": 'auth'
+    // "tokens.token": token,
+    // "tokens.access": 'auth'
   });
+  return user;
 }
 
 const UserModel = mongoose.model('User', UserSchema);
