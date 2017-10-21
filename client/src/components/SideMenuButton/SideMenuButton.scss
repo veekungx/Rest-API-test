@@ -1,0 +1,18 @@
+@import '../../stylesheets/_variables.scss';
+@import '../../stylesheets/_responsive.scss';
+.SideMenuButton {
+  border: none;
+  background: none;
+  color: $colorText;
+  &.active {
+    background: #ebebeb;
+  }
+  &__label {
+    &.active {
+      font-weight: bold;
+    }
+  }
+  &__icon {
+    margin-right: 5px;
+  }
+}
