@@ -3,6 +3,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const { UserModel } = require('./models/user');
+const generateToken = require('./helpers/generate-token');
 const app = express();
 
 mongoose.Promise = global.Promise;
@@ -14,12 +15,16 @@ app.get('/status', (req, res) => res.send('OK'));
 app.post('/users', async (req, res) => {
   const { email, password } = req.body;
   const user = new UserModel({ email, password });
-  let result;
+
   try {
-    result = await user.save();
+    await user.save();
+    const token = generateToken(user._id.toHexString());
+    user.tokens.push(token);
+    await user.save();
   } catch (e) {
-    res.status(400).send(e);
+    return res.status(400).send(e);
   }
-  return res.json(result);
+
+  return res.json(user);
 });
 module.exports = app;

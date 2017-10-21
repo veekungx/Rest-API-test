@@ -30,6 +30,11 @@ const UserSchema = Schema({
   }]
 })
 
+UserSchema.methods.toJSON = function () {
+  const { email } = this.toObject();
+  return { email }
+}
+
 const UserModel = mongoose.model('User', UserSchema);
 
 module.exports = {
