@@ -38,6 +38,14 @@ const UserController = {
     return res
       .set('x-auth', accessToken.token)
       .send(user);
+  },
+  removeToken: async (req, res) => {
+    const { Authorization } = req.headers;
+    const { user, token } = req;
+
+    await user.update({ $pull: { tokens: { token } } });
+
+    res.send('OK');
   }
 };
 

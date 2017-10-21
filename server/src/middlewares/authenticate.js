@@ -9,7 +9,6 @@ const authenticate = async (req, res, next) => {
 
   const user = await UserModel.findByToken(token);
   if (!user) return res.status(401).send();
-
   req.user = user;
   req.token = token;
   next();

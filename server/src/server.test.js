@@ -189,4 +189,45 @@ describe('server', () => {
       });
     })
   });
+
+  describe('DELETE /users/me/token', () => {
+    describe('200', () => {
+      it('should remove token from user', async () => {
+        const newUser = await createNewUser();
+        const token = newUser.tokens[0].token;
+        const { statusCode } = await request(server)
+          .del('/users/me/token')
+          .set('Authorization', `Bearer ${token}`)
+
+        const user = await UserModel.findOne();
+        expect(statusCode).to.equal(200);
+        expect(user.tokens).to.have.lengthOf(0);
+      });
+    });
+
+    describe('401', () => {
+      it('should return 401 when Authorization header not given', async () => {
+        const { statusCode, body, error } = await request(server)
+          .del('/users/me/token')
+
+        expect(statusCode).to.equal(401);
+      });
+
+      it('should return error when Authorization header invalid', async () => {
+        const { statusCode, body } = await request(server)
+          .del('/users/me/token')
+          .set('Authorization', `Bearer`)
+
+        expect(statusCode).to.equal(401);
+      });
+
+      it('should return error when user not found', async () => {
+        const { statusCode, body } = await request(server)
+          .del('/users/me/token')
+          .set('Authorization', `Bearer 123456`)
+
+        expect(statusCode).to.equal(401);
+      });
+    })
+  });
 });
