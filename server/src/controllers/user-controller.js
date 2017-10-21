@@ -18,6 +18,9 @@ const UserController = {
       return res.status(401).send();
     }
   },
+  getUser: async (req, res) => {
+    res.json(req.user);
+  },
   createUser: async (req, res) => {
     const { email, password } = req.body;
     const user = new UserModel({ email, password });

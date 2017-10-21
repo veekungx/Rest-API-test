@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const { UserModel } = require('./models/user');
 const generateToken = require('./helpers/generate-token');
 const authenticate = require('./middlewares/authenticate');
-const { createUser, login } = require('./controllers/user-controller');
+const { getUser, createUser, login } = require('./controllers/user-controller');
 const app = express();
 
 mongoose.Promise = global.Promise;
@@ -15,11 +15,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.get('/status', (req, res) => res.send('OK'));
-
-app.get('/users/me', authenticate, (req, res) => {
-  res.json(req.user);
-});
-
+app.get('/users/me', authenticate, getUser);
 app.post('/users', createUser);
 app.post('/users/login', login);
 
