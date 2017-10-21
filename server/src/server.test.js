@@ -13,6 +13,12 @@ describe('server', () => {
     });
   });
 
+  // describe('GET /users/me', () => {
+  //   const { statusCode, body } = await request(server)
+  //     .post('/users')
+  //     .send({ email: 'test@mail.com', password: '123456' });
+  // });
+
   describe('POST /users', () => {
     beforeEach(async () => {
       await UserModel.remove({});
@@ -63,6 +69,15 @@ describe('server', () => {
         expect(statusCode).to.equal(200);
         expect(body.tokens).to.be.undefined;
       });
+
+      it('should hash password', async () => {
+        const { statusCode, body } = await request(server)
+          .post('/users')
+          .send({ email: 'test@mail.com', password: '123456' })
+        expect(statusCode).to.equal(200);
+        const user = await UserModel.findOne();
+        expect(user.password).not.equal('123456');
+      });
     });
 
     describe('400', () => {
@@ -96,13 +111,5 @@ describe('server', () => {
         expect(error.text).to.contain('not a valid email');
       });
     });
-
-
-
-
-
-
-
-
   })
 });
