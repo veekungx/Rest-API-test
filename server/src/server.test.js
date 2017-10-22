@@ -27,6 +27,24 @@ describe('server', () => {
     });
   });
 
+  describe('GET /currencies', async () => {
+    const { statusCode, body } = await request(server)
+      .get('/currencies')
+    expect(statusCode).to.equal(200);
+  });
+
+  describe('GET /timezones', async () => {
+    const { statusCode, body } = await request(server)
+      .get('/timezones')
+    expect(statusCode).to.equal(200);
+  });
+
+  describe('GET /languages', async () => {
+    const { statusCode, body } = await request(server)
+      .get('/languages')
+    expect(statusCode).to.equal(200);
+  });
+
   describe('GET /users/me', () => {
     describe('200', () => {
       it('should return user if authenticated', async () => {
@@ -123,6 +141,32 @@ describe('server', () => {
         const user = await UserModel.findOne();
         expect(user.password).not.equal('123456');
       });
+
+
+      it('should have default preference', async () => {
+        const expectedPreference = {
+          localization: {
+            currency: '1',
+            timezone: '77',
+            language: '41',
+          },
+          privacy: {
+            messages: 'FOLLOWED_PEOPLE',
+            profileVisibility: 'EVERYONE',
+          },
+          content: {
+            categoryList: 'ENABLE',
+          },
+        };
+
+        const { statusCode, body } = await request(server)
+          .post('/users')
+          .send({ email: 'test@mail.com', password: '123456' })
+        expect(statusCode).to.equal(200);
+        const user = await UserModel.findOne().lean();
+        expect(user.preference).to.eql(expectedPreference);
+      });
+
     });
 
     describe('400', () => {

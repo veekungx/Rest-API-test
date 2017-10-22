@@ -1,11 +1,13 @@
+const fs = require('fs');
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const { UserModel } = require('./models/user');
-const generateToken = require('./helpers/generate-token');
 const authenticate = require('./middlewares/authenticate');
-const { getUser, createUser, removeToken, login } = require('./controllers/user-controller');
+const UserController = require('./controllers/user-controller');
+const CurrencyController = require('./controllers/currency-controller');
+const LanguageController = require('./controllers/language-controller');
+const TimeZoneController = require('./controllers/timezone-controller');
 const app = express();
 
 mongoose.Promise = global.Promise;
@@ -15,9 +17,14 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.get('/status', (req, res) => res.send('OK'));
-app.get('/users/me', authenticate, getUser);
-app.post('/users', createUser);
-app.post('/users/login', login);
-app.delete('/users/me/token', authenticate, removeToken)
+
+app.get('/currencies', CurrencyController.get);
+app.get('/timezones', TimeZoneController.get);
+app.get('/languages', LanguageController.get);
+app.get('/users/me', authenticate, UserController.getUser);
+app.post('/users', UserController.createUser);
+app.post('/users/login', UserController.login);
+app.patch('/users/me/preference', authenticate, UserController.patchPreference);
+app.delete('/users/me/token', authenticate, UserController.removeToken)
 
 module.exports = app;
