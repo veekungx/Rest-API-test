@@ -2,6 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import { bool, func, any } from 'prop-types';
 import { reduxForm, Field, SubmissionError } from 'redux-form';
+
+import { signupSuccess } from '../../signUpReducer';
 import './SignUp.scss';
 
 const SignUp =
@@ -68,6 +70,7 @@ export const SignUpForm = reduxForm({
       });
   },
   onSubmitSuccess: (result, dispatch, props) => {
+    dispatch(signupSuccess());
     props.history.push('/preference');
   },
   onSubmitFail: () => {

@@ -1,22 +1,21 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import { reducer as formReducer } from 'redux-form';
-import { createEpicMiddleware, combineEpics } from 'redux-observable';
-import { signupReducer, signUpEpic } from './features/sign-up/signUpReducer';
+// import { createEpicMiddleware, combineEpics } from 'redux-observable';
+import authReducer from './reducers/authReducer';
 
-
-const epics = combineEpics(signUpEpic);
-const epicMiddleware = createEpicMiddleware(epics);
+// const epics = combineEpics(signUpEpic);
+// const epicMiddleware = createEpicMiddleware(epics);
 
 const initialState = {};
 const middlewares = compose(
-  applyMiddleware(epicMiddleware),
+  applyMiddleware(),
   (typeof window.__REDUX_DEVTOOLS_EXTENSION__ !== 'undefined') ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f,
 );
 
 const store = createStore(
   combineReducers({
     form: formReducer,
-    signup: signupReducer,
+    auth: authReducer,
   }),
   initialState,
   middlewares,
