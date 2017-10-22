@@ -17,8 +17,8 @@ import {
 
 } from './signUpReducer';
 
-describe('signUpReducer', () => {
-  describe('actions', () => {
+describe('SignUp Reducer', () => {
+  describe('action creators', () => {
     it('should create SIGN_UP action', () => {
       const email = 'test@email.com';
       const password = '123456';

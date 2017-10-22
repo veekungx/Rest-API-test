@@ -3,8 +3,6 @@ import { object, bool, func } from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import './AuthenticatedRoute.scss';
-
 const AuthenticatedRoute =
   ({
     // HOC connect props
