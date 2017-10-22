@@ -51,7 +51,8 @@ module.exports = function (wallaby) {
           '^.+\\.(jpg|jpeg|png|gif|svg)$': '<rootDir>/config/jest/fileTransform.js',
           '^.+\\.scss$': '<rootDir>/config/jest/cssTransform.js',
           '^react-native$': 'react-native-web',
-        }
+        },
+        testEnvironment: 'node',
       }
       wallaby.testFramework.configure(jestConfig);
     },
