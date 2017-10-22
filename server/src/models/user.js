@@ -71,8 +71,8 @@ UserSchema.statics.findByToken = async function (token) {
 
   const user = await UserModel.findOne({
     _id: userId,
-    // "tokens.token": token,
-    // "tokens.access": 'auth'
+    "tokens.token": token,
+    "tokens.access": 'auth'
   });
   return user;
 }

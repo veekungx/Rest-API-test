@@ -16,7 +16,10 @@ module.exports = function (wallaby) {
     files: [
       'src/**/*.+(js|jsx|json|snap|css|less|sass|scss|jpg|jpeg|gif|png|svg)',
       '!src/**/*.test.js?(x)',
-      '!src/**/*.story.js'
+      '!src/**/*.story.js',
+      '!src/index.js',
+      '!src/config-store.js',
+      '!src/registerServiceWorker.js',
     ],
 
     tests: ['src/**/*.test.js?(x)'],
@@ -33,7 +36,6 @@ module.exports = function (wallaby) {
       }),
     },
 
-
     delays: {
       run: 300
     },
@@ -49,7 +51,8 @@ module.exports = function (wallaby) {
           '^.+\\.(jpg|jpeg|png|gif|svg)$': '<rootDir>/config/jest/fileTransform.js',
           '^.+\\.scss$': '<rootDir>/config/jest/cssTransform.js',
           '^react-native$': 'react-native-web',
-        }
+        },
+        testEnvironment: 'node',
       }
       wallaby.testFramework.configure(jestConfig);
     },
