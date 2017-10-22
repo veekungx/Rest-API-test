@@ -22,6 +22,33 @@ describe('SignUp', () => {
       const wrapper = shallow(<SignUp />);
       expect(wrapper.find('.SignUp__signupButton').exists()).toEqual(true);
     });
+
+    it('should not show error', () => {
+      const wrapper = shallow(<SignUp />);
+      expect(wrapper.find('.SignUp__error').exists()).toEqual(false);
+    });
+
+    it('should not show submitting', () => {
+      const wrapper = shallow(<SignUp />);
+      expect(wrapper.find('.SignUp__submitting').exists()).toEqual(false);
+    });
+  });
+
+  describe('Props', () => {
+    it('should render error ', () => {
+      const wrapper = shallow(<SignUp error={new Error('Something')} />);
+      expect(wrapper.find('.SignUp__error').exists()).toEqual(true);
+    });
+
+    it('should show submitting', () => {
+      const wrapper = shallow(<SignUp submitting />);
+      expect(wrapper.find('.SignUp__submitting').exists()).toEqual(true);
+    });
+
+    it('should diabled signup button when submitting', () => {
+      const wrapper = shallow(<SignUp submitting />);
+      expect(wrapper.find('.SignUp__signupButton').props().disabled).toEqual(true);
+    });
   });
 
   describe('Events', () => {
