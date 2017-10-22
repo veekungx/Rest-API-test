@@ -2,9 +2,9 @@ import React from 'react';
 import { func } from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
 
-import './FormPreference.scss';
+import './Preference.scss';
 
-const FormPreference =
+const Preference =
   ({
     // HOC redux-form props
     // HOC redux-form events
@@ -13,19 +13,19 @@ const FormPreference =
   }) =>
     (
       <form
-        className="FormPreference"
+        className="Preference"
         onSubmit={handleSubmit}
       >
-        <div className="FormPreference__header">
+        <div className="Preference__header">
           Edit Preferences
         </div>
-        <div className="FormPreference__section">
-          <div className="FormPreference__formLabel">
+        <div className="Preference__section">
+          <div className="Preference__formLabel">
             Localization
           </div>
-          <div className="FormPreference__formFields">
-            <div className="FormPreference__field">
-              <div className="FormPreference__formTitle">
+          <div className="Preference__formFields">
+            <div className="Preference__field">
+              <div className="Preference__formTitle">
                 Language
               </div>
               <Field
@@ -37,12 +37,12 @@ const FormPreference =
                 <option value="00ff00">Green</option>
                 <option value="0000ff">Blue</option>
               </Field>
-              <div className="FormPreference__hint">
+              <div className="Preference__hint">
                 Interesting in helping translate Fancy? <a href>Let us know.</a>
               </div>
             </div>
-            <div className="FormPreference__field">
-              <div className="FormPreference__formTitle">
+            <div className="Preference__field">
+              <div className="Preference__formTitle">
                 Time Zone
               </div>
               <Field
@@ -55,8 +55,8 @@ const FormPreference =
                 <option value="0000ff">Blue</option>
               </Field>
             </div>
-            <div className="FormPreference__field">
-              <div className="FormPreference__formTitle">
+            <div className="Preference__field">
+              <div className="Preference__formTitle">
                 Currency
               </div>
               <Field
@@ -71,16 +71,16 @@ const FormPreference =
             </div>
           </div>
         </div>
-        <div className="FormPreference__section">
-          <div className="FormPreference__formLabel">
+        <div className="Preference__section">
+          <div className="Preference__formLabel">
             Privacy
           </div>
-          <div className="FormPreference__formFields">
-            <div className="FormPreference__field">
-              <div className="FormPreference__formTitle">
+          <div className="Preference__formFields">
+            <div className="Preference__field">
+              <div className="Preference__formTitle">
                 Profile visibility
               </div>
-              <div className="FormPreference__hint">
+              <div className="Preference__hint">
                 {"Manage who can see your activity, things you fancy, your followers, people you follow or in anyone's search result"}
               </div>
               <label htmlFor>
@@ -102,11 +102,11 @@ const FormPreference =
                 <i className="fa fa-lock" /> Private
               </label>
             </div>
-            <div className="FormPreference__field">
-              <div className="FormPreference__formTitle">
+            <div className="Preference__field">
+              <div className="Preference__formTitle">
                 Messages
               </div>
-              <div className="FormPreference__hint">
+              <div className="Preference__hint">
                 Control who can send you messages
               </div>
               <label htmlFor>
@@ -138,27 +138,27 @@ const FormPreference =
               No one
               </label>
             </div>
-            <div className="FormPreference__field">
-              <div className="FormPreference__formTitle">
+            <div className="Preference__field">
+              <div className="Preference__formTitle">
                 Recently viewed
               </div>
-              <div className="FormPreference__hint">
+              <div className="Preference__hint">
                 Manage your Fancy browing history
               </div>
               <button>Delete all items</button>
             </div>
           </div>
         </div>
-        <div className="FormPreference__section">
-          <div className="FormPreference__formLabel">
+        <div className="Preference__section">
+          <div className="Preference__formLabel">
             Content
           </div>
-          <div className="FormPreference__formFields">
-            <div className="FormPreference__field">
-              <div className="FormPreference__formTitle">
+          <div className="Preference__formFields">
+            <div className="Preference__field">
+              <div className="Preference__formTitle">
                 Category lists
               </div>
-              <div className="FormPreference__hint">
+              <div className="Preference__hint">
                 {"Automatic add Fandy'd item to the Category list"}
               </div>
               <label htmlFor>
@@ -187,11 +187,12 @@ const FormPreference =
       </form>
     );
 
-FormPreference.propTypes = {
+Preference.propTypes = {
   handleSubmit: func,
 };
-FormPreference.defaultProps = {
+Preference.defaultProps = {
   handleSubmit: undefined,
 };
 
-export default reduxForm({ form: 'preference' })(FormPreference);
+export default Preference;
+export const PreferenceForm = reduxForm({ form: 'preference' })(Preference);
