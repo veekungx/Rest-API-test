@@ -30,4 +30,14 @@ describe('TopBar', () => {
       expect(wrapper.find({ iconClassName: 'fa fa-user' }).props().label).toEqual('You');
     });
   });
+
+  describe('Events', () => {
+    it('should handle onSearch', () => {
+      const handler = jest.fn();
+      const mockEvent = { target: { value: 'ok' } };
+      const wrapper = shallow(<TopBar onSearch={handler} />);
+      wrapper.find('.TopBar__search').simulate('change', mockEvent);
+      expect(handler).toHaveBeenCalledWith(mockEvent);
+    });
+  });
 });

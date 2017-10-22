@@ -5,17 +5,17 @@ import './App.scss';
 import Home from '../../components/Home/Home';
 import { LoginForm } from '../../features/login/components/Login/Login';
 import { SignUpForm } from '../../features/sign-up/components/SignUp/SignUp';
-import { PreferenceForm } from '../../features/preference/components/Preference/Preference';
 import AuthenticatedRouter from '../AuthenticatedRoute/AuthenticatedRoute';
+import UserPage from '../UserPage/UserPage';
 
 const App = () => (
   (
     <Router>
       <Switch>
         <Route exact path="/" component={Home} />
-        <Route exact path="/login" component={LoginForm} />
-        <Route exact path="/sign-up" component={SignUpForm} />
-        <AuthenticatedRouter exact path="/preference" component={PreferenceForm} />
+        <Route path="/login" component={LoginForm} />
+        <Route path="/sign-up" component={SignUpForm} />
+        <AuthenticatedRouter path="/user" component={UserPage} />
       </Switch>
     </Router>
   )
