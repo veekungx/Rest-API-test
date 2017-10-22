@@ -5,7 +5,10 @@ const bcrypt = require('bcrypt');
 const UserController = {
   login: async (req, res) => {
     const { email, password } = req.body;
-    const user = await UserModel.findOne({ email });
+    const user = await UserModel.findOne({ email }).lean();
+
+    if (!email) return res.status(400).send({ error: 'email is required' });
+    if (!password) return res.status(400).send({ error: 'password is required' });
 
     if (!user) return res.status(401).send();
     const isAuthenticated = await bcrypt.compare(password, user.password);
@@ -13,7 +16,12 @@ const UserController = {
     if (isAuthenticated) {
       const accessToken = generateAccessToken(user._id);
       user.tokens.push(accessToken);
-      return res.set('x-auth', accessToken.token).send(user);
+      const result = {
+        ...user,
+        token: accessToken.token
+      }
+
+      return res.send(result);
     } else {
       return res.status(401).send();
     }
@@ -35,16 +43,19 @@ const UserController = {
       return res.status(400).send(e);
     }
 
+    const result = {
+      ...user,
+      token: accessToken.token,
+    }
+
     return res
-      .set('x-auth', accessToken.token)
-      .send(user);
+      .send(result);
   },
   removeToken: async (req, res) => {
     const { Authorization } = req.headers;
     const { user, token } = req;
 
     await user.update({ $pull: { tokens: { token } } });
-
     res.send('OK');
   }
 };
