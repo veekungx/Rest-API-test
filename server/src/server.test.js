@@ -96,7 +96,7 @@ describe('server', () => {
         const user = await UserModel.findOne();
         const token = user.tokens[0].token;
         expect(statusCode).to.equal(200);
-        expect(headers['x-auth']).to.equal(token);
+        expect(body.token).to.equal(token);
       });
 
       it('should not return password field', async () => {
@@ -126,6 +126,21 @@ describe('server', () => {
     });
 
     describe('400', () => {
+      it('should return 400 when email is empty', async () => {
+        const { statusCode, error } = await request(server)
+          .post('/users')
+          .send({ email: '', password: '123456' })
+        expect(statusCode).to.equal(400);
+        expect(error.text).to.contain('`email` is required')
+      });
+      it('should return 400 when password is empty', async () => {
+        const { statusCode, error } = await request(server)
+          .post('/users')
+          .send({ email: 'notexist@email.com', password: '' })
+        expect(statusCode).to.equal(400);
+        expect(error.text).to.contain('`password` is required')
+      });
+
       it('should return error when email already exists', async () => {
         await createNewUser();
         const { statusCode, error } = await request(server)
@@ -164,10 +179,29 @@ describe('server', () => {
         const { statusCode, body, headers } = await request(server)
           .post('/users/login')
           .send({ email: 'test@email.com', password: '123456' })
-
         expect(statusCode).to.equal(200);
         expect(body._id).to.equal(newUser._id.toString());
-        expect(headers['x-auth']).to.equal(token);
+        expect(body.token).to.equal(token);
+      });
+    });
+
+    describe('400', () => {
+      it('should return 400 when email is empty', async () => {
+        const { statusCode, body } = await request(server)
+          .post('/users/login')
+          .send({ email: '', password: '123456' })
+
+        expect(statusCode).to.equal(400);
+        expect(body).to.eql({ error: 'email is required' })
+
+      });
+
+      it('should return 400 when password is empty', async () => {
+        const { statusCode, body } = await request(server)
+          .post('/users/login')
+          .send({ email: 'notexist@email.com', password: '' })
+        expect(statusCode).to.equal(400);
+        expect(body).to.eql({ error: 'password is required' })
       });
     });
     describe('401', () => {
