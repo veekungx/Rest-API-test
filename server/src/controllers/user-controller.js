@@ -49,6 +49,7 @@ const UserController = {
     }
 
     return res
+      .status(201)
       .send(result);
   },
   removeToken: async (req, res) => {
@@ -56,6 +57,12 @@ const UserController = {
     const { user, token } = req;
 
     await user.update({ $pull: { tokens: { token } } });
+    res.send('OK');
+  },
+  patchPreference: async (req, res) => {
+    const { user } = req;
+    user.preference = req.body;
+    await user.save();
     res.send('OK');
   }
 };
