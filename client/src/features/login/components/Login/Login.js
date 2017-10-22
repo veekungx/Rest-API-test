@@ -68,6 +68,7 @@ export const LoginForm = reduxForm({
       });
   },
   onSubmitSuccess: (result, dispatch, props) => {
+    console.log(result);
     props.history.push('/preference');
   },
   onSubmitFail: () => {

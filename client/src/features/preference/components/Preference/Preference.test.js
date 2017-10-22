@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { FormPreference } from './Preference';
+import Preference from './Preference';
 
-describe('FormPreference', () => {
+describe('Preference', () => {
   it('should render');
 });
