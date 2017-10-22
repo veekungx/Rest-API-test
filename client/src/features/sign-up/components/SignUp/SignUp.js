@@ -1,6 +1,7 @@
 import React from 'react';
 import { func } from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
+import { compose, withHandlers } from 'recompose';
 
 import './SignUp.scss';
 
@@ -22,7 +23,8 @@ const SignUp =
         />
         <Field
           name="password"
-          component="password"
+          component="input"
+          type="password"
           className="SignUp__passwordField"
         />
         <button
@@ -40,5 +42,15 @@ SignUp.propTypes = {
 SignUp.defaultProps = {
   handleSubmit: undefined,
 };
+
 export default SignUp;
-export const SignUpForm = reduxForm({ form: 'signup' })(SignUp);
+
+export const SignUpForm = compose(
+  withHandlers({
+    onSubmit: props => (event) => {
+      console.log(props);
+      console.log(event);
+    },
+  }),
+  reduxForm({ form: 'signup' }),
+)(SignUp);

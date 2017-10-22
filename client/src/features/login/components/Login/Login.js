@@ -23,7 +23,8 @@ const Login =
         />
         <Field
           name="password"
-          component="password"
+          component="input"
+          type="password"
           className="Login__passwordField"
         />
         <button
