@@ -5,7 +5,14 @@ const initialState = {
   isLoggedIn: false,
 };
 
-export default (state = initialState, action = {}) => {
+// CONST
+export const LOGOUT = 'auth/LOGOUT';
+
+// action creators
+export const logout = () => ({ type: LOGOUT });
+
+// reducer
+export const authReducer = (state = initialState, action = {}) => {
   switch (action.type) {
     case SIGN_UP_SUCCESS:
     case LOGIN_SUCCESS:

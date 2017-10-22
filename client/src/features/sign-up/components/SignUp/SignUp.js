@@ -71,7 +71,9 @@ export const SignUpForm = reduxForm({
   },
   onSubmitSuccess: (result, dispatch, props) => {
     dispatch(signupSuccess());
-    props.history.push('/preference');
+    const { token } = result.data;
+    localStorage.setItem('token', token);
+    props.history.push('/user/preference');
   },
   onSubmitFail: () => {
 

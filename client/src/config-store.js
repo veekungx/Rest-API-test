@@ -1,7 +1,7 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 // import { createEpicMiddleware, combineEpics } from 'redux-observable';
-import authReducer from './reducers/authReducer';
+import { authReducer } from './reducers/authReducer';
 
 // const epics = combineEpics(signUpEpic);
 // const epicMiddleware = createEpicMiddleware(epics);

@@ -1,8 +1,12 @@
 import React from 'react';
 import { number, string, func } from 'prop-types';
 import classnames from 'classnames';
+import { compose, withHandlers } from 'recompose';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import './TopBarMenu.scss';
+import { logout } from '../../reducers/authReducer';
 
 const TopBarMenu =
   ({
@@ -33,4 +37,21 @@ TopBarMenu.defaultProps = {
   label: '',
   onClick: undefined,
 };
+
 export default TopBarMenu;
+
+export const TopBarMenuWithLogout = compose(
+  connect(),
+  withRouter,
+  withHandlers({
+    onClick: props => () => {
+      const {
+        dispatch, // HOC connect
+        history, // HOC withRouter
+      } = props;
+      dispatch(logout());
+      localStorage.removeItem('token');
+      history.push('/login');
+    },
+  }),
+)(TopBarMenu);

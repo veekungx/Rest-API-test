@@ -70,8 +70,10 @@ export const LoginForm = reduxForm({
       });
   },
   onSubmitSuccess: (result, dispatch, props) => {
+    const { token } = result.data;
     dispatch(loginSuccess());
-    props.history.push('/preference');
+    localStorage.setItem('token', token);
+    props.history.push('/user/preference');
   },
   onSubmitFail: () => {
 

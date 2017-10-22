@@ -22,7 +22,8 @@ import {} from 'prop-types';
 
 import './${component}.scss';
 
-const ${component} = () => (
+const ${component} = () => 
+(
   <div className="${component}">
     ${component}
   </div>
