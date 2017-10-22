@@ -1,6 +1,6 @@
 import React from 'react';
 import { func } from 'prop-types';
-import TopBarMenu from '../TopBarMenu/TopBarMenu';
+import TopBarMenu, { TopBarMenuWithLogout } from '../TopBarMenu/TopBarMenu';
 import './TopBar.scss';
 
 const TopBar =
@@ -22,7 +22,7 @@ const TopBar =
           <TopBarMenu iconClassName="fa fa-inbox" />
           <TopBarMenu iconClassName="fa fa-bolt" />
           <TopBarMenu iconClassName="fa fa-user" label="You" />
-          <TopBarMenu iconClassName="fa fa-sign-out" label="Log out" />
+          <TopBarMenuWithLogout iconClassName="fa fa-sign-out" label="Log out" />
         </div>
       </div>
     );
@@ -30,7 +30,9 @@ const TopBar =
 TopBar.propTypes = {
   onSearch: func,
 };
+
 TopBar.defaultProps = {
   onSearch: undefined,
 };
+
 export default TopBar;
