@@ -58,25 +58,19 @@ SignUp.defaultProps = {
 
 export default SignUp;
 
-const submit = (values, dispatch, props) => {
-  const { email, password } = values;
-  return axios.post('http://localhost:4000/users', { email, password })
-    .then(() => {
-      props.history.push('/');
-    })
-    .catch(() => {
-      throw new SubmissionError({ _error: true });
-    });
-};
-
-
 export const SignUpForm = reduxForm({
   form: 'signup',
-  onSubmitFail: () => {
-
+  onSubmit: (values) => {
+    const { email, password } = values;
+    return axios.post('http://localhost:4000/users', { email, password })
+      .catch(() => {
+        throw new SubmissionError({ _error: true });
+      });
   },
   onSubmitSuccess: (result, dispatch, props) => {
     props.history.push('/preference');
   },
-  onSubmit: submit,
+  onSubmitFail: () => {
+
+  },
 })(SignUp);

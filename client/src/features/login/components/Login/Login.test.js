@@ -23,6 +23,38 @@ describe('Login', () => {
       const wrapper = shallow(<Login />);
       expect(wrapper.find('.Login__loginButton').exists()).toEqual(true);
     });
+
+    it('should show "LOGIN" on login button by default', () => {
+      const wrapper = shallow(<Login />);
+      expect(wrapper.find('.Login__loginButton').text()).toContain('LOGIN');
+    });
+
+    it('should not show "LOGGING IN" on login button by default', () => {
+      const wrapper = shallow(<Login />);
+      expect(wrapper.find('.Login__loginButton').text()).not.toContain('LOGGING IN');
+    });
+
+    it('should not show error by default', () => {
+      const wrapper = shallow(<Login />);
+      expect(wrapper.find('.Login__error').exists()).toEqual(false);
+    });
+  });
+
+  describe('Props', () => {
+    it('should show "LOGGING IN" on button when submitting', () => {
+      const wrapper = shallow(<Login submitting />);
+      expect(wrapper.find('.Login__loginButton').text()).toContain('LOGGING IN');
+    });
+
+    it('should disabled login button when submitting', () => {
+      const wrapper = shallow(<Login submitting />);
+      expect(wrapper.find('.Login__loginButton').props().disabled).toEqual(true);
+    });
+
+    it('should show error when given', () => {
+      const wrapper = shallow(<Login error="any error" />);
+      expect(wrapper.find('.Login__error').exists()).toEqual(true);
+    });
   });
 
   describe('Events', () => {
