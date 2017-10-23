@@ -2,18 +2,20 @@
 @import '../../stylesheets/_responsive.scss';
 .SideMenuButton {
   border: none;
-  background: none;
+  background: white;
   color: $colorText;
+  display: block;
   &.active {
     background: #ebebeb;
   }
   &__label {
+    font-size: 12px;
     &.active {
       font-weight: bold;
     }
   }
   &__icon {
-    font-size: 14px;
+    font-size: 18px;
     min-width: 20px;
     margin-right: 10px;
   }
