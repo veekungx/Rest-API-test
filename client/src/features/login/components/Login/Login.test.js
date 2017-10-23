@@ -38,6 +38,11 @@ describe('Login', () => {
       const wrapper = shallow(<Login />);
       expect(wrapper.find('.Login__error').exists()).toEqual(false);
     });
+
+    it('should have sign up link', () => {
+      const wrapper = shallow(<Login />);
+      expect(wrapper.find('.Login__signupLink').exists()).toEqual(true);
+    });
   });
 
   describe('Props', () => {
