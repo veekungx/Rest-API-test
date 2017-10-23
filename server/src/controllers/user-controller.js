@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 const UserController = {
   login: async (req, res) => {
     const { email, password } = req.body;
-    const user = await UserModel.findOne({ email }).lean();
+    const user = await UserModel.findOne({ email });
 
     if (!email) return res.status(400).send({ error: 'email is required' });
     if (!password) return res.status(400).send({ error: 'password is required' });
@@ -16,8 +16,9 @@ const UserController = {
     if (isAuthenticated) {
       const accessToken = generateAccessToken(user._id);
       user.tokens.push(accessToken);
+      await user.save();
       const result = {
-        ...user,
+        ...user.toObject(),
         token: accessToken.token
       }
 
