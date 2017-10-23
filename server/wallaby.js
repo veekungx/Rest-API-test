@@ -5,6 +5,7 @@ module.exports = function () {
       'src/**/*.js',
       '!src/**/*.test.js',
       '!src/index.js',
+      '!src/scripts/seed',
     ],
 
     tests: [

@@ -8,6 +8,10 @@ import {
   preferenceReducer,
 } from './preferenceReducer';
 
+import {
+  logout,
+} from '../../reducers/authReducer';
+
 
 describe('preferenceReducer', () => {
   describe('action creators', () => {
@@ -29,7 +33,7 @@ describe('preferenceReducer', () => {
         languages: [],
         timezones: [],
         currencies: [],
-        preference: undefined,
+        config: undefined,
       };
       expect(preferenceReducer(undefined)).toEqual(stateAfter);
     });
@@ -40,7 +44,7 @@ describe('preferenceReducer', () => {
         languages: [],
         timezones: [],
         currencies: [],
-        preference: {},
+        config: {},
       };
 
       const stateAfter = {
@@ -48,7 +52,7 @@ describe('preferenceReducer', () => {
         languages: [],
         timezones: [],
         currencies: [],
-        preference: {},
+        config: {},
       };
 
       expect(preferenceReducer(stateBefore, fetchResource())).toEqual(stateAfter);
@@ -82,7 +86,7 @@ describe('preferenceReducer', () => {
         languages: [],
         timezones: [],
         currencies: [],
-        preference: {},
+        config: {},
       };
 
       const stateAfter = {
@@ -90,7 +94,7 @@ describe('preferenceReducer', () => {
         languages: [{ _id: 1 }],
         timezones: [{ _id: 2 }],
         currencies: [{ _id: 3 }],
-        preference: {
+        config: {
           currency: '1',
           timezone: '77',
           language: '41',
@@ -102,6 +106,31 @@ describe('preferenceReducer', () => {
 
       expect(preferenceReducer(stateBefore, fetchResourceSuccess(resources, preference)))
         .toEqual(stateAfter);
+    });
+
+    it('should handle LOGOUT', () => {
+      const stateBefore = {
+        languages: [{ _id: 1 }],
+        timezones: [{ _id: 2 }],
+        currencies: [{ _id: 3 }],
+        config: {
+          currency: '1',
+          timezone: '77',
+          language: '41',
+          messages: 'FOLLOWED_PEOPLE',
+          profileVisibility: 'EVERYONE',
+          categoryList: 'ENABLE',
+        },
+      };
+
+      const stateAfter = {
+        languages: [{ _id: 1 }],
+        timezones: [{ _id: 2 }],
+        currencies: [{ _id: 3 }],
+        config: undefined,
+      };
+
+      expect(preferenceReducer(stateBefore, logout())).toEqual(stateAfter);
     });
   });
 });

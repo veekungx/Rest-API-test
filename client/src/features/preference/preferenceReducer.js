@@ -4,13 +4,14 @@ import 'rxjs/add/observable/forkJoin';
 import 'rxjs/add/observable/fromPromise';
 
 import { combineEpics } from 'redux-observable';
+import { LOGOUT } from '../../reducers/authReducer';
 
 const intialState = {
   loading: false,
   timezones: [],
   languages: [],
   currencies: [],
-  preference: undefined,
+  config: undefined,
 };
 
 // CONST
@@ -38,11 +39,16 @@ export const preferenceReducer = (state = intialState, action = {}) => {
         ...state,
         loading: false,
         ...action.resources,
-        preference: {
+        config: {
           ...action.preference.localization,
           ...action.preference.privacy,
           ...action.preference.content,
         },
+      };
+    case LOGOUT:
+      return {
+        ...state,
+        config: undefined,
       };
     default:
       return state;
