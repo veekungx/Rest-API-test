@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { func, arrayOf, any } from 'prop-types';
+import { bool, func, arrayOf, any } from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
 import { compose, lifecycle } from 'recompose';
 import { connect } from 'react-redux';
@@ -11,6 +11,7 @@ import './Preference.scss';
 const Preference =
   ({
     // HOC redux-form props
+    submitting,
     // HOC redux-form events
     handleSubmit,
 
@@ -202,13 +203,18 @@ const Preference =
         <button
           className="Preference__saveButton"
           type="submit"
+          disabled={submitting}
         >
-          Save Preference
+          {submitting
+            ? 'SAVING'
+            : 'SAVE PREFERENCE'
+          }
         </button>
       </form>
     );
 
 Preference.propTypes = {
+  submitting: bool,
   languages: arrayOf(any),
   timezones: arrayOf(any),
   currencies: arrayOf(any),
@@ -216,6 +222,7 @@ Preference.propTypes = {
 };
 
 Preference.defaultProps = {
+  submitting: false,
   languages: [],
   timezones: [],
   currencies: [],
