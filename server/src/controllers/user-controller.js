@@ -17,8 +17,11 @@ const UserController = {
       const accessToken = generateAccessToken(user._id);
       user.tokens.push(accessToken);
       await user.save();
+
       const result = {
-        ...user.toObject(),
+        _id: user._id,
+        email: user.email,
+        preference: user.preference,
         token: accessToken.token
       }
 
@@ -41,11 +44,15 @@ const UserController = {
       user.tokens.push(accessToken);
       await user.save();
     } catch (e) {
-      return res.status(400).send(e);
+      return res.status(400).send({ error: e.message });
     }
 
+    const { _id, email: userEmail, preference } = user;
+
     const result = {
-      ...user,
+      _id,
+      email: userEmail,
+      preference,
       token: accessToken.token,
     }
 

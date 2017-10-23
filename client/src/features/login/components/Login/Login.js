@@ -46,7 +46,7 @@ const Login =
         </button>
 
         {error &&
-          <div className="Login__error">Login failed, please try again</div>
+          <div className="Login__error">Login failed.</div>
         }
 
         <div className="Login__signup">

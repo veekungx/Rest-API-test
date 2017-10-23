@@ -43,7 +43,7 @@ const SignUp =
           }
         </button>
         {error &&
-          <div className="SignUp__error">FAIL, Please try again</div>
+          <div className="SignUp__error">Sign up failed.</div>
         }
         <div className="SignUp__login">
           Already have account? <Link href to="/login">Login</Link>
@@ -80,6 +80,5 @@ export const SignUpForm = reduxForm({
     props.history.push('/user/preference');
   },
   onSubmitFail: () => {
-
   },
 })(SignUp);

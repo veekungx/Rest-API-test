@@ -220,15 +220,12 @@ Preference.defaultProps = {
 
 export default Preference;
 
-const mapState = (state) => {
-  console.log(state.preference.preference);
-  return {
-    timezones: state.preference.timezones,
-    currencies: state.preference.currencies,
-    languages: state.preference.languages,
-    initialValues: state.preference.preference,
-  };
-};
+const mapState = state => ({
+  timezones: state.preference.timezones,
+  currencies: state.preference.currencies,
+  languages: state.preference.languages,
+  initialValues: state.preference.config,
+});
 
 export const PreferenceForm = compose(
   connect(mapState),

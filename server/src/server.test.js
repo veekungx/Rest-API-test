@@ -187,7 +187,7 @@ describe('server', () => {
           .post('/users')
           .send({ email: '', password: '123456' })
         expect(statusCode).to.equal(400);
-        expect(error.text).to.contain('`email` is required')
+        expect(error.text).to.contain('email is required')
       });
       it('should return 400 when password is empty', async () => {
         const { statusCode, error } = await request(server)
