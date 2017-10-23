@@ -49,5 +49,8 @@
     border-radius: 3px;
     float: right;
     margin-right: 25px;
+    &:disabled {
+      background: #ebebeb;
+    }
   }
 }
