@@ -50,9 +50,9 @@ const Login =
         }
 
         <div className="Login__signup">
-          {"Don't have account"}
+          {"Don't have account. "}  <Link className="Login__signupLink" href to="/sign-up">Sign up</Link>
         </div>
-        <Link className="Login__signupLink" href to="/sign-up">Sign up here</Link>
+
       </form>
     );
 

@@ -28,9 +28,9 @@ describe('SignUp', () => {
       expect(wrapper.find('.SignUp__error').exists()).toEqual(false);
     });
 
-    it('should not show submitting', () => {
+    it('should show "SIGN UP" by default', () => {
       const wrapper = shallow(<SignUp />);
-      expect(wrapper.find('.SignUp__submitting').exists()).toEqual(false);
+      expect(wrapper.find('.SignUp__signupButton').text()).toContain('SIGN UP');
     });
   });
 
@@ -42,7 +42,7 @@ describe('SignUp', () => {
 
     it('should show submitting', () => {
       const wrapper = shallow(<SignUp submitting />);
-      expect(wrapper.find('.SignUp__submitting').exists()).toEqual(true);
+      expect(wrapper.find('.SignUp__signupButton').text()).toContain('SIGNING UP');
     });
 
     it('should diabled signup button when submitting', () => {
