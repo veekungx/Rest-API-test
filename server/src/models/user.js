@@ -1,11 +1,10 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 const validator = require('validator');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-
 const secret = require('../secret');
 
+const Schema = mongoose.Schema;
 const UserSchema = Schema({
   email: {
     type: String,
@@ -31,8 +30,43 @@ const UserSchema = Schema({
       type: String,
       required: true
     }
-  }]
-})
+  }],
+  preference: {
+    localization: {
+      language: {
+        type: String,
+        default: '41' //English
+      },
+      timezone: {
+        type: String,
+        default: '77', //Bangkok
+      },
+      currency: {
+        type: String,
+        default: '1', //USD
+      },
+    },
+    privacy: {
+      profileVisibility: {
+        type: String,
+        enum: ['EVERYONE', 'PRIVATE'],
+        default: 'EVERYONE'
+      },
+      messages: {
+        type: String,
+        enum: ['EVERYONE', 'FOLLOWED_PEOPLE', 'NONE'],
+        default: 'FOLLOWED_PEOPLE',
+      },
+    },
+    content: {
+      categoryList: {
+        type: String,
+        enum: ['ENABLE', 'DISABLE'],
+        default: 'ENABLE',
+      }
+    }
+  }
+});
 
 UserSchema.pre('save', async function (next) {
   const user = this;
@@ -52,8 +86,8 @@ UserSchema.pre('save', async function (next) {
 
 UserSchema.methods.toJSON = function () {
   const user = this;
-  const { _id, email } = user.toObject();
-  return { _id, email }
+  const { _id, email, preference } = user.toObject();
+  return { _id, email, preference }
 }
 
 UserSchema.statics.findByToken = async function (token) {
@@ -71,8 +105,8 @@ UserSchema.statics.findByToken = async function (token) {
 
   const user = await UserModel.findOne({
     _id: userId,
-    "tokens.token": token,
-    "tokens.access": 'auth'
+    'tokens.token': token,
+    'tokens.access': 'auth'
   });
   return user;
 }

@@ -49,7 +49,7 @@ describe('server', () => {
     describe('200', () => {
       it('should return user if authenticated', async () => {
         const newUser = await createNewUser();
-        const token = newUser.tokens[0].token;
+        const { token } = newUser.tokens[0];
 
         const { statusCode, body } = await request(server)
           .get('/users/me')
@@ -57,6 +57,18 @@ describe('server', () => {
         expect(statusCode).to.equal(200);
         const user = await UserModel.findOne();
         expect(body._id).to.equal(user._id.toString());
+      });
+
+      it('should have preference field', async () => {
+        const newUser = await createNewUser();
+        const { token } = newUser.tokens[0];
+
+        const { statusCode, body } = await request(server)
+          .get('/users/me')
+          .set('Authorization', `Bearer ${token}`)
+        expect(statusCode).to.equal(200);
+        const user = await UserModel.findOne();
+        expect(body.preference).not.to.be.undefined;
       });
     });
 
@@ -87,13 +99,13 @@ describe('server', () => {
   });
 
   describe('POST /users', () => {
-    describe('200', () => {
+    describe('201', () => {
       it('should create new user', async () => {
         const { statusCode, body } = await request(server)
           .post('/users')
           .send({ email: 'test@mail.com', password: '123456' })
         const user = await UserModel.findOne();
-        expect(statusCode).to.equal(200);
+        expect(statusCode).to.equal(201);
         expect(user).to.not.null;
       });
 
@@ -102,7 +114,7 @@ describe('server', () => {
           .post('/users')
           .send({ email: '     test@mail.com     ', password: '123456' })
         const user = await UserModel.findOne();
-        expect(statusCode).to.equal(200);
+        expect(statusCode).to.equal(201);
         expect(user.email).to.equal('test@mail.com');
       });
 
@@ -112,8 +124,8 @@ describe('server', () => {
           .send({ email: 'test@mail.com', password: '123456' })
 
         const user = await UserModel.findOne();
-        const token = user.tokens[0].token;
-        expect(statusCode).to.equal(200);
+        const { token } = user.tokens[0];
+        expect(statusCode).to.equal(201);
         expect(body.token).to.equal(token);
       });
 
@@ -121,7 +133,7 @@ describe('server', () => {
         const { statusCode, body } = await request(server)
           .post('/users')
           .send({ email: 'test@mail.com', password: '123456' })
-        expect(statusCode).to.equal(200);
+        expect(statusCode).to.equal(201);
         expect(body.password).to.be.undefined;
       });
 
@@ -129,7 +141,7 @@ describe('server', () => {
         const { statusCode, body } = await request(server)
           .post('/users')
           .send({ email: 'test@mail.com', password: '123456' })
-        expect(statusCode).to.equal(200);
+        expect(statusCode).to.equal(201);
         expect(body.tokens).to.be.undefined;
       });
 
@@ -137,7 +149,7 @@ describe('server', () => {
         const { statusCode, body } = await request(server)
           .post('/users')
           .send({ email: 'test@mail.com', password: '123456' })
-        expect(statusCode).to.equal(200);
+        expect(statusCode).to.equal(201);
         const user = await UserModel.findOne();
         expect(user.password).not.equal('123456');
       });
@@ -162,7 +174,7 @@ describe('server', () => {
         const { statusCode, body } = await request(server)
           .post('/users')
           .send({ email: 'test@mail.com', password: '123456' })
-        expect(statusCode).to.equal(200);
+        expect(statusCode).to.equal(201);
         const user = await UserModel.findOne().lean();
         expect(user.preference).to.eql(expectedPreference);
       });
@@ -219,7 +231,7 @@ describe('server', () => {
     describe('200', () => {
       it('should return user _id and token when success', async () => {
         const newUser = await createNewUser();
-        const token = newUser.tokens[0].token;
+        const { token } = newUser.tokens[0];
         const { statusCode, body, headers } = await request(server)
           .post('/users/login')
           .send({ email: 'test@email.com', password: '123456' })
@@ -272,7 +284,7 @@ describe('server', () => {
     describe('200', () => {
       it('should remove token from user', async () => {
         const newUser = await createNewUser();
-        const token = newUser.tokens[0].token;
+        const { token } = newUser.tokens[0];
         const { statusCode } = await request(server)
           .del('/users/me/token')
           .set('Authorization', `Bearer ${token}`)
@@ -307,5 +319,66 @@ describe('server', () => {
         expect(statusCode).to.equal(401);
       });
     })
+  });
+
+  describe('PATCH /users/me/preference', () => {
+    describe('200', () => {
+      it('should update user preference', async () => {
+        const newUser = await createNewUser();
+        const patchPreference = {
+          localization: {
+            currency: '3',
+            timezone: '4',
+            language: '10',
+          },
+          privacy: {
+            messages: 'NONE',
+            profileVisibility: 'PRIVATE',
+          },
+          content: {
+            categoryList: 'DISABLE',
+          },
+        };
+        const { token } = newUser.tokens[0];
+
+        const { statusCode, body } = await request(server)
+          .patch('/users/me/preference')
+          .set('Authorization', `Bearer ${token}`)
+          .send(patchPreference);
+
+        const user = await UserModel.findOne().lean();
+        expect(statusCode).to.equal(200);
+        expect(user.preference).to.eql(patchPreference);
+      });
+    });
+    describe('400', () => {
+      it('should return 400 when privacy.message not valid', () => {
+
+      });
+    });
+    describe('401', () => {
+      it('should return 401 when Authorization header not given', async () => {
+        const { statusCode, body, error } = await request(server)
+          .patch('/users/me/preference')
+
+        expect(statusCode).to.equal(401);
+      });
+
+      it('should return error when Authorization header invalid', async () => {
+        const { statusCode, body } = await request(server)
+          .patch('/users/me/preference')
+          .set('Authorization', `Bearer`)
+
+        expect(statusCode).to.equal(401);
+      });
+
+      it('should return error when user not found', async () => {
+        const { statusCode, body } = await request(server)
+          .patch('/users/me/preference')
+          .set('Authorization', `Bearer 123456`)
+
+        expect(statusCode).to.equal(401);
+      });
+    });
   });
 });
