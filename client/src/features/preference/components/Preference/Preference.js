@@ -195,7 +195,12 @@ const Preference =
           </div>
         </div>
 
-        <button>Save Preference</button>
+        <button
+          className="Preference__saveButton"
+          type="submit"
+        >
+          Save Preference
+        </button>
       </form>
     );
 

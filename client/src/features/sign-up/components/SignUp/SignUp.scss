@@ -21,15 +21,19 @@
     color: $darkGray;
   }
   &__signupButton {
-    width: 100px;
     height: 36px;
+    padding: 0 20px;
     color: white;
     font-size: 14px;
     border: none;
     background: $primaryColor;
     border-radius: 3px;
   }
-  &__login{
+  &__error {
+    color: tomato;
+    margin-top: 20px;
+  }
+  &__login {
     margin-top: 25px;
     font-size: 16px;
   }
