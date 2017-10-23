@@ -6,8 +6,12 @@ import './Home.scss';
 
 const Home = () => (
   <div className="Home">
-    <Link href to="/login">Login</Link>
-    <Link href to="/sign-up">Sign up</Link>
+    <div className="Home__title">FANCY</div>
+    <div className="Home__linkContainer">
+      <Link className="Home__link" href to="/login">Login</Link>
+      |
+      <Link className="Home__link" href to="/sign-up">Sign up</Link>
+    </div>
   </div>
 );
 
