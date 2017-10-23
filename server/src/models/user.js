@@ -86,8 +86,8 @@ UserSchema.pre('save', async function (next) {
 
 UserSchema.methods.toJSON = function () {
   const user = this;
-  const { _id, email } = user.toObject();
-  return { _id, email }
+  const { _id, email, preference } = user.toObject();
+  return { _id, email, preference }
 }
 
 UserSchema.statics.findByToken = async function (token) {

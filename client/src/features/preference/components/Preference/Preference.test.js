@@ -4,4 +4,7 @@ import Preference from './Preference';
 
 describe('Preference', () => {
   it('should render');
+
+  describe('Components', () => {
+  });
 });

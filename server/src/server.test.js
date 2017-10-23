@@ -58,6 +58,18 @@ describe('server', () => {
         const user = await UserModel.findOne();
         expect(body._id).to.equal(user._id.toString());
       });
+
+      it('should have preference field', async () => {
+        const newUser = await createNewUser();
+        const { token } = newUser.tokens[0];
+
+        const { statusCode, body } = await request(server)
+          .get('/users/me')
+          .set('Authorization', `Bearer ${token}`)
+        expect(statusCode).to.equal(200);
+        const user = await UserModel.findOne();
+        expect(body.preference).not.to.be.undefined;
+      });
     });
 
     describe('401', () => {
@@ -340,7 +352,7 @@ describe('server', () => {
       });
     });
     describe('400', () => {
-      it('should return 400 when privacy.message not valid', () => { 
+      it('should return 400 when privacy.message not valid', () => {
 
       });
     });
