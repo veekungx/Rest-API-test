@@ -60,10 +60,10 @@ export const fetchResourceEpic = action$ =>
   action$.ofType(FETCH_RESOURCE)
     .switchMap(() => {
       const token = localStorage.getItem('token');
-      const languages$ = Observable.fromPromise(axios.get('http://localhost:4000/languages'));
-      const timezones$ = Observable.fromPromise(axios.get('http://localhost:4000/timezones'));
-      const currencies$ = Observable.fromPromise(axios.get('http://localhost:4000/currencies'));
-      const me$ = Observable.fromPromise(axios.get('http://localhost:4000/users/me', {
+      const languages$ = Observable.fromPromise(axios.get(`${process.env.REACT_APP_API_URI}/languages`));
+      const timezones$ = Observable.fromPromise(axios.get(`${process.env.REACT_APP_API_URI}/timezones`));
+      const currencies$ = Observable.fromPromise(axios.get(`${process.env.REACT_APP_API_URI}/currencies`));
+      const me$ = Observable.fromPromise(axios.get(`${process.env.REACT_APP_API_URI}/users/me`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

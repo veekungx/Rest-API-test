@@ -70,7 +70,11 @@ const Preference =
                 component="select"
               >
                 {currencies.map(currency =>
-                  <option key={currency._id} value={currency._id}>{currency.name}</option>)
+                  (
+                    <option key={currency._id} value={currency._id}>
+                      {currency.name} ({currency.symbol})
+                    </option>
+                  ))
                 }
               </Field>
             </div>
@@ -262,7 +266,7 @@ export const PreferenceForm = compose(
       };
 
       const token = localStorage.getItem('token');
-      return axios.patch('http://localhost:4000/users/me/preference', payload, {
+      return axios.patch(`${process.env.REACT_APP_API_URI}/users/me/preference`, payload, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

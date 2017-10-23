@@ -31,7 +31,7 @@ export const signUpRequestEpic = action$ =>
   action$
     .ofType(SIGN_UP_REQUEST)
     .switchMap(({ email, password }) =>
-      Observable.fromPromise(axios.post('http://localhost:4000/users', { email, password }))
+      Observable.fromPromise(axios.post(`${process.env.REACT_APP_API_URI}/users`, { email, password }))
         .map(() => signupSuccess())
         .catch(error => Observable.of(signupError(error))));
 
