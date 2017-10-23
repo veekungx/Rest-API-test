@@ -6,6 +6,14 @@ This project represent my current developement skills, my workflow, TDD, Unit te
 [Storybook](https://tw-assignment-storybook.now.sh) - The design of components
 
 [Demo](https://tw-assignment-client.now.sh) - Try it!!
+
+#### user for test
+
+```
+user: test@email.com
+pass: 123456
+```
+
 ### Before Start
 
 on `/server`
