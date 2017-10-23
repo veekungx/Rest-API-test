@@ -1,6 +1,18 @@
 @import '../../../../stylesheets/_variables.scss';
 @import '../../../../stylesheets/_responsive.scss';
 .Preference {
+  background: white;
+  padding-bottom: 100px;
+  select {
+    font-size: 12px;
+    width: 100%;
+    padding: 25px;
+  }
+  label {
+    display: inline-block;
+    padding-top: 5px;
+    margin-right: 15px;
+  }
   &__header {
     font-weight: bold;
     padding: 15px;
@@ -26,5 +38,16 @@
     color: lighten($darkGray, 40%);
     font-weight: lighter;
     font-size: 12px;
+  }
+  &__saveButton {
+    background: $primaryColor;
+    height: 36px;
+    margin-top: 20px;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 3px;
+    float: right;
+    margin-right: 25px;
   }
 }

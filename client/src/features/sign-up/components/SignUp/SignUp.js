@@ -2,9 +2,10 @@ import React from 'react';
 import axios from 'axios';
 import { bool, func, any } from 'prop-types';
 import { reduxForm, Field, SubmissionError } from 'redux-form';
+import { Link } from 'react-router-dom';
 
-import { signupSuccess } from '../../signUpReducer';
 import './SignUp.scss';
+import { signupSuccess } from '../../signUpReducer';
 
 const SignUp =
   ({
@@ -36,14 +37,17 @@ const SignUp =
           className="SignUp__signupButton"
           disabled={submitting}
         >
-          SIGN UP
-          {submitting &&
-            <div className="SignUp__submitting">Summitting...</div>
+          {submitting
+            ? 'SIGNING UP...'
+            : 'SIGN UP'
           }
         </button>
         {error &&
           <div className="SignUp__error">FAIL, Please try again</div>
         }
+        <div className="SignUp__login">
+          Already have account? <Link href to="/login">Login</Link>
+        </div>
       </form>
     );
 

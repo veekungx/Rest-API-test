@@ -1,1 +1,40 @@
-.Login{}
+@import "../../../../stylesheets/_variables.scss";
+@import "../../../../stylesheets/_responsive.scss";
+.Login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px;
+  max-width: 500px;
+  margin: auto;
+  &__title {
+    font-size: 24px;
+    color: $darkGray;
+  }
+  &__emailField,
+  &__passwordField {
+    height: 24px;
+    width: 250px;
+    padding: 3px 15px;
+    margin: 10px;
+    font-size: 16px;
+    color: $darkGray;
+  }
+  &__loginButton {
+    width: 100px;
+    height: 36px;
+    color: white;
+    font-size: 14px;
+    border: none;
+    background: $primaryColor;
+    border-radius: 3px;
+  }
+  &__error {
+    color: tomato;
+    margin-top: 20px;
+  }
+  &__signup {
+    margin-top: 25px;
+    font-size: 16px;
+  }
+}

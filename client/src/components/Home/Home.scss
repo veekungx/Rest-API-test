@@ -1,1 +1,24 @@
-.Home{}
+@import "../../stylesheets/_variables.scss";
+@import "../../stylesheets/_responsive.scss";
+.Home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  &__title {
+    margin-top: 50px;
+    font-size: 100px;
+    color: $darkGray;
+  }
+  &__linkContainer {
+    display: flex;
+    align-items: center;
+  }
+  &__link {
+    text-decoration: none;
+    font-size: 28px;
+    color: $primaryColor;
+    border-radius: 3px;
+    padding: 3px 12px;
+    margin: 0 20px;
+  }
+}

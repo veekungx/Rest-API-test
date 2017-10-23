@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { bool, any, func } from 'prop-types';
 import { reduxForm, Field, SubmissionError } from 'redux-form';
+import { Link } from 'react-router-dom';
 
 import { loginSuccess } from '../../loginReducer';
 import './Login.scss';
@@ -24,12 +25,14 @@ const Login =
           name="email"
           component="input"
           className="Login__emailField"
+          placeholder="email"
         />
         <Field
           name="password"
           component="input"
           type="password"
           className="Login__passwordField"
+          placeholder="password"
         />
         <button
           className="Login__loginButton"
@@ -41,9 +44,15 @@ const Login =
             : 'LOGIN'
           }
         </button>
+
         {error &&
           <div className="Login__error">Login failed, please try again</div>
         }
+
+        <div className="Login__signup">
+          {"Don't have account. "}  <Link className="Login__signupLink" href to="/sign-up">Sign up</Link>
+        </div>
+
       </form>
     );
 
