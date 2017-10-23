@@ -9,15 +9,23 @@ const CurrencyController = require('./controllers/currency-controller');
 const LanguageController = require('./controllers/language-controller');
 const TimeZoneController = require('./controllers/timezone-controller');
 const app = express();
+const env = process.env.NODE_ENV || 'developement';
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost:27017/taskworld', { useMongoClient: true });
+
+if (env === 'test') {
+  mongoose.connect('mongodb://localhost:27017/test', { useMongoClient: true });
+} else if (env === 'developement') {
+  mongoose.connect('mongodb://localhost:27017/dev', { useMongoClient: true });
+} else if (env === 'production') {
+  mongoose.connect('mongodb://veekungx:123456@ds227325.mlab.com:27325/tw-assignment', { useMongoClient: true });
+}
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use('/public', express.static('public'));
 
 app.get('/status', (req, res) => res.send('OK'));
-
 app.get('/currencies', CurrencyController.get);
 app.get('/timezones', TimeZoneController.get);
 app.get('/languages', LanguageController.get);

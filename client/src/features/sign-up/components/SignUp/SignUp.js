@@ -68,7 +68,7 @@ export const SignUpForm = reduxForm({
   form: 'signup',
   onSubmit: (values) => {
     const { email, password } = values;
-    return axios.post('http://localhost:4000/users', { email, password })
+    return axios.post(`${process.env.REACT_APP_API_URI}/users`, { email, password })
       .catch(() => {
         throw new SubmissionError({ _error: true });
       });

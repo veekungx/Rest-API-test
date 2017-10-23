@@ -12,7 +12,7 @@ const token = localStorage.getItem('token');
 if (token) {
   store.dispatch(loginSuccess());
 }
-
+console.log(process.env.REACT_APP_API_URI);
 ReactDOM.render(
   <Provider store={store}>
     <App />
